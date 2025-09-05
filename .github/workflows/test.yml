@@ -3,8 +3,16 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+      - name: download repo
+        uses: actions/checkout@v4
+
+      - name: run workflow script
+        run: |
+          sudo ./workflow.sh
+      
+      - name: test apt config
+        run: |
+          sudo apt-get upgrade -y
+          sudo apt-get autoremove -y

@@ -1,0 +1,15 @@
+name: "Remove Snap Completely"
+description: "This workflow removes the Snap package manager from Ubuntu runners on Github Actions."
+
+branding:
+  icon: "package"
+  color: "orange"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "run workflow script"
+      if: runner.os == "Linux"
+      run: |
+        sudo ./workflow.sh
+

@@ -20,15 +20,20 @@ Pin-Priority: -10
 ' > /etc/apt/preferences.d/disable-snap.pref
 
 #install the mozilla apt repo to avoid using snap for firefox
-install -d -m 0755 /etc/apt/keyrings 
-wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- > /etc/apt/keyrings/packages.mozilla.org.asc
-echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" > /etc/apt/sources.list.d/mozilla.list
-echo '
+DISTRO_ID="$(grep -ioP '^ID=\K.+' /etc/os-release)"
+if [ "$DISTRO_ID" = "ubuntu" ]; then
+  install -d -m 0755 /etc/apt/keyrings 
+  wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- > /etc/apt/keyrings/packages.mozilla.org.asc
+  echo "deb [signed-by=/etc/apt/keyrings/packages.mozilla.org.asc] https://packages.mozilla.org/apt mozilla main" > /etc/apt/sources.list.d/mozilla.list
+  echo '
 Package: *
 Pin: origin packages.mozilla.org
 Pin-Priority: 1000
-' > /etc/apt/preferences.d/mozilla 
+  ' > /etc/apt/preferences.d/mozilla 
+fi
 
 #update the apt indexes to apply all of our changes 
 apt-get update
-apt-get install firefox -y --allow-downgrades
+if [ "$DISTRO_ID" = "ubuntu" ]; then
+  apt-get install firefox -y --allow-downgrades
+fi

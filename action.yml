@@ -5,6 +5,12 @@ branding:
   icon: "package"
   color: "orange"
 
+inputs:
+  reinstall_firefox:
+    description: "If set to true, Firefox will be reinstalled using the Mozilla APT repo. Otherwise, Firefox will be held back from upgrading."
+    required: false
+    default: false
+
 runs:
   using: "composite"
   steps:
@@ -13,5 +19,5 @@ runs:
       if: runner.os == 'Linux'
       run: |
         cd ${{ github.action_path }}
-        sudo ./workflow.sh
+        sudo REINSTALL_FIREFOX='${{ inputs.reinstall_firefox }}' ./workflow.sh
 

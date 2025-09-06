@@ -17,7 +17,23 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get upgrade -y
-  
+
+  no_snapd_reinstall_firefox:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download repo
+        uses: actions/checkout@v4
+
+      - name: run workflow script
+        run: |
+          sudo REINSTALL_FIREFOX='true' ./workflow.sh
+      
+      - name: test apt upgrading (no snapd, reinstalling firefox)
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y
+
   with_snapd:
     runs-on: ubuntu-latest
 

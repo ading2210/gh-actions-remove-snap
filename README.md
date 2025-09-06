@@ -1,6 +1,6 @@
 # Remove Snap Completely in Github Actions
 
-This Github Action removes the Snap package manager from Ubuntu runners. It also configures APT to never install Snap again, and sets up the Mozilla APT repository so that the installed version of Firefox no longer relies on Snap. 
+This Github Action removes the Snap package manager from Ubuntu runners. It also configures APT to never install Snap again, and optionally sets up the Mozilla APT repository so that the installed version of Firefox no longer relies on Snap. 
 
 ## Why?
 
@@ -11,8 +11,7 @@ Sometimes, you need to install new packages onto the Github-hosted Ubuntu runner
 Simply add this as a step in your existing workflow:
 
 ```yaml
-name: build-image
-run-name: Build the shimboot disk image for all boards
+name: run build
 on: [push]
 
 jobs:
@@ -21,6 +20,16 @@ jobs:
     steps:
       - name: remove snap
         uses: ading2210/gh-actions-remove-snap@v1
+```
+
+This action accepts the following inputs:
+
+```yaml
+inputs:
+  reinstall_firefox:
+    description: "If set to true, Firefox will be reinstalled using the Mozilla APT repo. Otherwise, Firefox will be held back from upgrading."
+    required: false
+    default: false
 ```
 
 Note that if the action runs on a non-Linux runner, it will be skipped. 

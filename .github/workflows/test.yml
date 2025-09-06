@@ -1,7 +1,8 @@
-name: CI
+name: testing
 on: [push]
+
 jobs:
-  build:
+  no_snapd:
     runs-on: ubuntu-latest
 
     steps:
@@ -12,7 +13,19 @@ jobs:
         run: |
           sudo ./workflow.sh
       
-      - name: test apt config
+      - name: test apt upgrading (no snapd)
         run: |
+          sudo apt-get update
           sudo apt-get upgrade -y
-          sudo apt-get autoremove -y
+  
+  with_snapd:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: download repo
+        uses: actions/checkout@v4
+
+      - name: test apt upgrading (with snapd)
+        run: |
+          sudo apt-get update
+          sudo apt-get upgrade -y

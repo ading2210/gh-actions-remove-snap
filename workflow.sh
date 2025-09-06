@@ -9,7 +9,7 @@ fi
 
 #uninstall snapd
 systemctl disable --now snapd
-apt purge -y snapd
+apt-get purge -y snapd
 rm -rf /snap /var/snap /var/lib/snapd /var/cache/snapd /usr/lib/snapd ~/snap
 
 #create a apt pref to avoid installing it

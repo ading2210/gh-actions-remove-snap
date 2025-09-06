@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: remove snap
-        uses: ading2210/gh-actions-remove-snap@main
+        uses: ading2210/gh-actions-remove-snap@v1
 ```
 
 Note that if the action runs on a non-Linux runner, it will be skipped. 

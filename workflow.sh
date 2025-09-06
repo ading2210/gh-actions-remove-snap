@@ -2,9 +2,21 @@
 
 set -e
 
+echo "removing snapd..."
+echo
+echo "script options:"
+echo "reinstall_firefox: ${REINSTALL_FIREFOX:-false}"
+echo "disable_man_db: ${DISABLE_MAN_DB:-false}"
+
 if [ "$EUID" != "0" ]; then
   echo "error: this script must be run as root"
   exit 1
+fi
+
+#optionally disable man-db updating to speed up apt
+if [ "$DISABLE_MAN_DB" = "true" ]; then
+  echo 'set man-db/auto-update false' | debconf-communicate
+  dpkg-reconfigure man-db
 fi
 
 #uninstall snapd
@@ -19,7 +31,7 @@ Pin: release a=*
 Pin-Priority: -10
 ' > /etc/apt/preferences.d/disable-snap.pref
 
-#install the mozilla apt repo to avoid using snap for firefox
+#optionally install the mozilla apt repo to avoid using snap for firefox
 if [ "$REINSTALL_FIREFOX" = "true" ]; then
   install -d -m 0755 /etc/apt/keyrings 
   wget -q https://packages.mozilla.org/apt/repo-signing-key.gpg -O- > /etc/apt/keyrings/packages.mozilla.org.asc

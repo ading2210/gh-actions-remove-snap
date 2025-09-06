@@ -30,6 +30,10 @@ inputs:
     description: "If set to true, Firefox will be reinstalled using the Mozilla APT repo. Otherwise, Firefox will be held back from upgrading."
     required: false
     default: false
+  disable_man_db:
+    description: "If set to true, the script will disable man-db updates to further speed up APT."
+    required: false
+    default: false
 ```
 
 Note that if the action runs on a non-Linux runner, it will be skipped. 

@@ -2,22 +2,26 @@ name: "Remove Snap Completely"
 description: "Remove the Snap package manager from Ubuntu runners on Github Actions."
 
 branding:
-  icon: "package"
-  color: "orange"
+  icon: package
+  color: orange
 
 inputs:
   reinstall_firefox:
     description: "If set to true, Firefox will be reinstalled using the Mozilla APT repo. Otherwise, Firefox will be held back from upgrading."
     required: false
     default: false
+  disable_man_db:
+    description: "If set to true, the script will disable man-db updates to further speed up APT."
+    required: false
+    default: false
 
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - name: "run workflow script"
+    - name: run workflow script
       shell: bash
       if: runner.os == 'Linux'
       run: |
         cd ${{ github.action_path }}
-        sudo REINSTALL_FIREFOX='${{ inputs.reinstall_firefox }}' ./workflow.sh
+        sudo REINSTALL_FIREFOX='${{ inputs.reinstall_firefox }}' DISABLE_MAN_DB='${{ inputs.disable_man_db }}' ./workflow.sh
 

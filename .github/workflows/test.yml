@@ -11,7 +11,7 @@ jobs:
 
       - name: run workflow script
         run: |
-          sudo ./workflow.sh
+          sudo DISABLE_MAN_DB='true' ./workflow.sh
       
       - name: test apt upgrading (no snapd)
         run: |
@@ -27,7 +27,7 @@ jobs:
 
       - name: run workflow script
         run: |
-          sudo REINSTALL_FIREFOX='true' ./workflow.sh
+          sudo REINSTALL_FIREFOX='true' DISABLE_MAN_DB='true' ./workflow.sh
       
       - name: test apt upgrading (no snapd, reinstalling firefox)
         run: |
